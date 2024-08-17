@@ -37,7 +37,7 @@ async function run() {
     app.get('/all-products', async(req, res)=>{
         const page = parseInt(req.query.page);
         const size = parseInt(req.query.size);
-        // const search = req.query.search;
+        const search = req.query.search;
   
         const regex = new RegExp(search, 'i');
           let query = {
@@ -52,7 +52,7 @@ async function run() {
 
       // GETTING THE TOTAL NUMBER/COUNT OF ACCEPTED PRODUCTS OR SEARCHED FOR PRODUCTS PAGE PAGINATION
     app.get('/all-products-count', async(req, res)=>{
-        // const search = req.query.search;
+        const search = req.query.search;
   
         
           const regex = new RegExp(search, 'i');
