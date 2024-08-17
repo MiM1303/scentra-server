@@ -23,7 +23,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
 
-    const perfumeCollection = client.db("Scentra").collection("perfumes");
+    const perfumeCollection = client.db("scentraDB").collection("perfumes");
 
 
     // PERFUMES API TO GET DATA
@@ -31,6 +31,42 @@ async function run() {
         const result = await perfumeCollection.find().toArray();
         res.send(result);
     })
+
+
+    // GETTING ALL ACCEPTED PRODUCTS OR SEARCHED PRODUCTS FOR ALL PRODUCTS PAGE
+    app.get('/all-products', async(req, res)=>{
+        const page = parseInt(req.query.page);
+        const size = parseInt(req.query.size);
+        // const search = req.query.search;
+  
+        const regex = new RegExp(search, 'i');
+          let query = {
+            product_name: { $in: [regex] },
+          }
+  
+        console.log('pagination query', req.query);
+        const result = await perfumeCollection.find(query).skip(page * size).limit(size).toArray();
+        res.send(result);
+      })
+
+
+      // GETTING THE TOTAL NUMBER/COUNT OF ACCEPTED PRODUCTS OR SEARCHED FOR PRODUCTS PAGE PAGINATION
+    app.get('/all-products-count', async(req, res)=>{
+        // const search = req.query.search;
+  
+        
+          const regex = new RegExp(search, 'i');
+          let query = {
+            product_name: { $in: [regex] },
+          }
+          console.log('query set', query);
+          // const count = await productCollection.countDocuments(query);
+      
+          
+        const count = await perfumeCollection.countDocuments(query);
+        console.log("outside if-else", count)
+        res.send({count});
+      })
 
 
 
