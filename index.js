@@ -68,6 +68,24 @@ async function run() {
         res.send({count});
       })
 
+      // searching
+    app.get('/perfumes/search/:searchText', async(req, res)=>{
+      const searchText = req.params.searchText;
+      console.log(searchText);
+
+      
+      const query = {
+        name: {$regex: searchText, $options: 'i'}
+      };
+      
+      const cursor = perfumeCollection.find(query) ;
+      const result = await cursor.toArray();
+      // const result = await cursor.find(query).toArray();
+
+      console.log(result);
+      res.send(result);
+    })
+
 
 
 
