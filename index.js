@@ -87,6 +87,19 @@ async function run() {
     })
 
 
+    // sorting
+    app.get('/perfumes/sorted/:sort', async(req, res)=>{
+      const sortOrder = req.params.sort;
+      console.log(sortOrder);
+
+      
+      if(sortOrder) options = {sort: {date : sortOrder === 'asc'?1 : -1}}
+      const result = await perfumeCollection.find(options).toArray();
+
+      console.log(result);
+      res.send(result);
+    })
+
 
 
     // Connect the client to the server	(optional starting in v4.7)
