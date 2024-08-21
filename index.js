@@ -26,7 +26,11 @@ async function run() {
     const perfumeCollection = client.db("scentraDB").collection("perfumes");
 
 
-    
+    // PERFUMES API TO GET DATA
+    app.get('/perfumes', async(req, res)=>{
+      const result = await perfumeCollection.find().toArray();
+      res.send(result);
+  })
 
 
     // GETTING ALL ACCEPTED PRODUCTS OR SEARCHED PRODUCTS FOR ALL PRODUCTS PAGE
